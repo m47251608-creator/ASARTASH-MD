@@ -14,7 +14,7 @@ app.listen(PORT, () => console.log(`Server chal raha port ${PORT} pe`));
 const commands = new Map();
 
 // Command load karne ka function
-fs.readdirSync('./commands').forEach(file => {
+fs.readdirSync('./cmds').forEach(file => {
     if(file.endsWith('.js')) {
         const cmd = require(`./commands/${file}`);
         commands.set(cmd.name, cmd);

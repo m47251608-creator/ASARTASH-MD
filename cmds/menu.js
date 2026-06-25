@@ -1,0 +1,46 @@
+module.exports = {
+    name: 'menu',
+    alias: ['help', 'list', 'cmd'],
+    description: 'ASARTASH-MD Commands',
+    execute: async (sock, msg, args) => {
+        const menu = `
+╭─❀─╮
+│  ✦ ASARTASH-MD ✦
+│  ⚡ Multi-Device Bot
+│  👑 Owner: +923424267980
+╰─❀─╯
+
+╭━─━─━─━─━─╮
+┃  🌟 𝗠𝗔𝗜𝗡 𝗖𝗢𝗠𝗔𝗡𝗗𝗦 🌟
+╰━─━─━─━─━─╯
+┃  ◈ .menu - 𝗠𝗲𝗻𝘂 𝗗𝗲𝗸𝗵𝗼
+┃  ◈ .ping - 𝗕𝗼𝘁 𝗖𝗵𝗲𝗰𝗸  
+┃  ◈ .pair - 𝗣𝗮𝗶𝗿 𝗖𝗼𝗱𝗲
+┃  ◈ .owner - 𝗢𝘄𝗻𝗲𝗿 𝗡𝘂𝗺𝗯𝗲𝗿
+┃  ◈ .gcstatus - 𝗚𝗿𝗼𝘂𝗽 𝗦𝘁𝗮𝘁𝘂𝘀
+
+╭━─━─━─━─━─╮
+┃  🔥 𝟭𝟬 𝗠𝗔𝗜𝗡 𝗖𝗔𝗧𝗘𝗚𝗢𝗥𝗬 🔥
+╰━─━─━─━─━─╯
+┃ 1. ◈ .gctools - 𝗚𝗿𝗼𝘂𝗽 𝗧𝗼𝗹𝘀
+┃ 2. ◈ .islamic - 𝗜𝘀𝗹𝗮𝗺𝗶𝗰 𝗧𝗼𝗹𝘀  
+┃ 3. ◈ .dlmenu - 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗿
+┃ 4. ◈ .aimenu - 𝗔𝗜 𝗖𝗵𝗮𝘁𝗚𝗣𝗧
+┃ 5. ◈ .stickermenu - 𝗦𝘁𝗶𝗰𝗸𝗲𝗿 𝗠𝗮𝗸𝗲𝗿
+┃ 6. ◈ .editmenu - 𝗣𝗵𝗼𝘁𝗼 𝗘𝗱𝗶𝘁
+┃ 7. ◈ .funmenu - 𝗙𝘂𝗻 𝗚𝗮𝗺𝗲𝘀
+┃ 8. ◈ .searchmenu - 𝗦𝗲𝗮𝗿𝗰𝗵 𝗧𝗼𝗼𝗹𝘀
+┃ 9. ◈ .gamemenu - 𝗚𝗮𝗺𝗲𝘀
+┃ 10. ◈ .ownermenu - 𝗢𝘄𝗻𝗲𝗿 𝗢𝗻𝗹𝘆
+
+╭────────────╮
+│  💎 𝗧𝗼𝘁𝗮𝗹: 800+ 𝗖𝗼𝗺𝗮𝗻𝗱𝘀
+│  📱 𝗠𝘂𝗹𝘁𝗶-𝗗𝗲𝘃𝗶𝗰𝗲 𝗦𝘂𝗽𝗽𝗼𝗿𝘁
+╰────────────╰
+
+> 𝘊𝘢𝘵𝘦𝘨𝘰𝘳𝘺 𝘭𝘪𝘬𝘩𝘰: .gctools
+> 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘣𝘺 𝘈𝘴𝘢𝘥 𝘛𝘦𝘤𝘩𝘟 🚩
+        `;
+        await sock.sendMessage(msg.key.remoteJid, { text: menu }, { quoted: msg });
+    }
+  }

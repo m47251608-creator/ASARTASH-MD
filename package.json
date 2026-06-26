@@ -2,10 +2,9 @@
   "name": "asartash-md",
   "version": "1.0.0",
   "description": "ASARTASH-MD WhatsApp Bot by @Asad-TechX",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-  "start": "node server.js"
-  }
+    "start": "node server.js"
   },
   "engines": {
     "node": "24.x"
@@ -17,7 +16,7 @@
     "fs-extra": "^11.2.0",
     "chalk": "^4.1.2",
     "axios": "^1.7.2",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
     "express": "^4.19.2"
   }
 }

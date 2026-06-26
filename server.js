@@ -7,35 +7,37 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 
-const getHtml = (code = 'Enter your number first') => `
+const getHtml = (code = 'ENTER NUMBER TO START') => `
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASARTASH-MD Pair</title>
+<title>ASARTASH-MD</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    body { background: #0f172a; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; color: #e2e8f0; }
-    .card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(10px); padding: 35px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); text-align: center; width: 90%; max-width: 380px; }
-    h1 { font-size: 28px; font-weight: 700; margin: 0 0 5px; color: #38bdf8; }
-    p { color: #94a3b8; margin-bottom: 25px; }
-    input { width: 100%; padding: 14px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; font-size: 16px; color: #e2e8f0; box-sizing: border-box; margin-bottom: 15px; }
-    input:focus { outline: none; border-color: #38bdf8; }
-    button { width: 100%; padding: 14px; background: #38bdf8; color: #0f172a; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    button:hover { background: #0ea5e9; }
-    .code-box { margin-top: 20px; padding: 18px; background: #1e293b; border-radius: 12px; font-size: 26px; letter-spacing: 4px; font-weight: 700; color: #38bdf8; min-height: 30px; }
-    .note { font-size: 12px; color: #64748b; margin-top: 15px; }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600&display=swap');
+    body { background: #0a0a0a; font-family: 'Rajdhani', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; color: #ff1a1a; }
+    .card { background: #111; border: 2px solid #ff1a1a; padding: 35px; border-radius: 16px; box-shadow: 0 0 25px rgba(255, 26, 26, 0.4); text-align: center; width: 90%; max-width: 380px; }
+    h1 { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; margin: 0 0 5px; color: #ff1a1a; text-shadow: 0 0 10px #ff1a1a; }
+    p { color: #aaa; margin-bottom: 25px; font-weight: 600; }
+    input { width: 100%; padding: 14px; background: #000; border: 1px solid #ff1a1a; border-radius: 8px; font-size: 16px; color: #ff1a1a; box-sizing: border-box; margin-bottom: 15px; font-family: 'Rajdhani', sans-serif; }
+    input:focus { outline: none; box-shadow: 0 0 8px #ff1a1a; }
+    button { width: 100%; padding: 14px; background: #ff1a1a; color: #000; border: none; border-radius: 8px; font-size: 18px; font-weight: 900; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.2s; }
+    button:hover { background: #ff3333; box-shadow: 0 0 15px #ff1a1a; }
+    .code-box { margin-top: 20px; padding: 18px; background: #000; border: 1px dashed #ff1a1a; border-radius: 8px; font-size: 24px; letter-spacing: 3px; font-weight: 700; color: #ff1a1a; min-height: 30px; font-family: 'Orbitron', sans-serif; }
+    .note { font-size: 12px; color: #666; margin-top: 15px; }
+    footer { margin-top: 25px; font-size: 14px; color: #ff1a1a; font-weight: 700; }
 </style></head>
 <body>
     <div class="card">
         <h1>ASARTASH-MD 🚩</h1>
-        <p>Enter WhatsApp number with country code</p>
+        <p>ENTER WHATSAPP NUMBER WITH COUNTRY CODE</p>
         <form method="POST" action="/pair">
             <input name="number" placeholder="e.g. 923424267980" required>
-            <button type="submit">GENERATE PAIR CODE</button>
+            <button type="submit">GET PAIR CODE</button>
         </form>
         <div class="code-box">${code}</div>
-        <p class="note">Go to WhatsApp > Linked Devices > Link a Device > Enter Code</p>
+        <p class="note">WHATSAPP > LINKED DEVICES > LINK A DEVICE > ENTER CODE</p>
+        <footer>@Powered by 𝐀͠ѕꪲʌ̄ძ 🚩</footer>
     </div>
 </body></html>
 `;
@@ -44,9 +46,9 @@ app.get('/', (req, res) => res.send(getHtml()));
 
 app.post('/pair', async (req, res) => {
     const number = req.body.number.replace(/[^0-9]/g, '');
-    let code = 'Failed. Try again in 10s';
+    let code = 'FAILED. RETRY';
     try {
-        const sessionId = `session_${number}_${Date.now()}`;
+        const sessionId = `sess_${number}_${Date.now()}`;
         const { state, saveCreds } = await useMultiFileAuthState(sessionId);
         const sock = makeWASocket({ 
             auth: state, 
@@ -63,11 +65,11 @@ app.post('/pair', async (req, res) => {
         }
         await delay(1000);
         sock.end();
-        fs.rmSync(sessionId, { recursive: true, force: true }); // Session delete kar do
+        fs.rmSync(sessionId, { recursive: true, force: true });
 
     } catch (e) {
         console.log(e);
-        code = 'ERROR. Retry';
+        code = 'ERROR. RETRY';
     }
     res.send(getHtml(code));
 });

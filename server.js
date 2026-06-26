@@ -1,102 +1,75 @@
-const express = require('express')
-const { default: makeWASocket, useMultiFileAuthState, delay, Browsers } = require('@whiskeysockets/baileys')
-const pino = require('pino')
-const fs = require('fs-extra')
-const path = require('path')
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
 
-const app = express()
-const port = process.env.PORT || 3000
-
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-
-// Beautiful Pair Code Web
 app.get('/', (req, res) => {
   res.send(`
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASARTASH-MD Pair Code</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-    body{
-      background:linear-gradient(135deg,#0f0f0f 0%,#1a1a2e 100%);
-      min-height:100vh;display:flex;align-items:center;justify-content:center;
-      color:#fff
-    }
-    .box{
-      background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);
-      border:1px solid rgba(255,255,255,0.1);border-radius:20px;
-      padding:40px 30px;width:90%;max-width:400px;
-      box-shadow:0 20px 60px rgba(0,0,0,0.5)
-    }
-    h1{text-align:center;margin-bottom:10px;font-size:28px}
-    .powered{text-align:center;font-size:12px;color:#888;margin-bottom:30px}
-    input{
-      width:100%;padding:15px;border-radius:12px;border:1px solid #333;
-      background:#1a1a1a;color:#fff;font-size:16px;outline:none;margin-bottom:15px
-    }
-    input:focus{border-color:#25D366}
-    button{
-      width:100%;padding:15px;border-radius:12px;border:none;
-      background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);
-      color:#fff;font-size:16px;font-weight:bold;cursor:pointer;
-      transition:0.3s
-    }
-    button:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(37,211,102,0.3)}
-    .note{margin-top:20px;font-size:12px;color:#666;text-align:center}
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h1>🔐 ASARTASH-MD</h1>
-    <div class="powered">Powered by @Asad-TechX</div>
-    <form method="POST" action="/pair">
-      <input type="text" name="number" placeholder="9234XXXXXXXXX" required>
-      <button type="submit">Get Pair Code</button>
-    </form>
-    <div class="note">Country code k sath number likho. Bina + ke</div>
-  </div>
-</body>
-</html>
-  `)
-})
-
-// Pairing Code API
-app.post('/pair', async (req, res) => {
-  const number = req.body.number.replace(/[^0-9]/g, '')
-  
-  if(!number) return res.send('Number likho wiro!')
-
-  try {
-    const { state, saveCreds } = await useMultiFileAuthState('./auth')
-    const sock = makeWASocket({
-      auth: state,
-      printQRInTerminal: false,
-      logger: pino({ level: 'silent' }),
-      browser: Browsers.ubuntu('Chrome')
-    })
-
-    await delay(2000)
-    let code = await sock.requestPairingCode(number)
-    code = code.match(/.{1,4}/g).join('-')
-    
-    res.send(`
-      <div style="background:#0f0f0f;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Segoe UI">
-        <div style="text-align:center">
-          <h1>✅ Pair Code Ready</h1>
-          <h2 style="font-size:40px;margin:30px 0;color:#25D366">${code}</h2>
-          <p>WhatsApp > Linked Devices > Link a Device > Link with phone number</p>
-          <p style="color:#888;margin-top:20px">Code 20 sec mein expire ho jayega</p>
-        </div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>ASARTASH-MD Pair 🐉</title>
+      <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins&display=swap" rel="stylesheet">
+      <style>
+        body {
+          margin: 0;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: radial-gradient(circle at top, #0f172a, #000);
+          font-family: 'Poppins', sans-serif;
+          color: #fff;
+          overflow: hidden;
+        }
+        .card {
+          background: rgba(15, 23, 42, 0.8);
+          border: 2px solid #38bdf8;
+          box-shadow: 0 0 30px #38bdf8, inset 0 0 20px rgba(56,189,248,0.2);
+          border-radius: 25px;
+          padding: 40px 30px;
+          text-align: center;
+          backdrop-filter: blur(10px);
+          animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+          from { box-shadow: 0 0 20px #38bdf8; }
+          to { box-shadow: 0 0 40px #f472b6; }
+        }
+        h1 {
+          font-family: 'Orbitron', sans-serif;
+          font-size: 2.2rem;
+          color: #38bdf8;
+          margin-bottom: 5px;
+          text-shadow: 0 0 10px #38bdf8;
+        }
+        .tag { color: #f472b6; font-size: 0.9rem; margin-bottom: 20px; }
+        .code-box {
+          background: #0f172a;
+          border: 1px solid #f472b6;
+          border-radius: 15px;
+          padding: 15px;
+          font-size: 1.5rem;
+          letter-spacing: 3px;
+          color: #fff;
+          box-shadow: inset 0 0 10px #f472b6;
+        }
+        .footer { margin-top: 20px; font-size: 0.8rem; color: #94a3b8; }
+        .emoji { font-size: 2rem; margin-bottom: 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="emoji">🍒🐉🔖</div>
+        <h1>ASARTASH-MD</h1>
+        <div class="tag">Powered by @Asad-TechX | Owner: +923424267980</div>
+        <div class="code-box" id="code">LOADING...</div>
+        <div class="footer">Open WhatsApp > Link Device > Enter Code Above</div>
       </div>
-    `)
-    
-    sock.ev.on('creds.update', saveCreds)
-  } catch(e) {
-    res.send('Error: ' + e.message)
-  }
-})
+    </body>
+    </html>
+  `);
+});
 
-app.listen(port, () => console.log(`Web chal gaya port ${port}`))
+app.listen(port, () => console.log('ASARTASH-MD running on '+port));
